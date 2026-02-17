@@ -39,3 +39,86 @@ def cargar_productos(archivo_productos):
     return productos, ids_registrados, categorias
 
 
+def buscar_producto(productos, id_buscar):
+    for p in productos:
+        if p["id"] == id_buscar:
+            return p
+    return None
+
+
+# CREAR PRODUCTO (ADMIN)
+def crear_producto(productos, ids_registrados):
+    id_p = input("ID del producto: ").strip()
+
+    if id_p in ids_registrados:
+        print(" Ese ID ya está registrado.")
+        return
+
+    nombre = input("Nombre: ").strip()
+    descripcion = input("Descripción: ").strip()
+    
+    try:
+        precio = float(input("Precio: "))
+    except ValueError:
+        print(" Precio inválido.")
+        return
+    
+    print("\nMoneda:")
+    print("1. USD")
+    print("2. EUR")
+    print("3. COP")
+    print("4. MXN")
+    moneda_op = input("Seleccione (1/2/3/4): ").strip()
+    
+    if moneda_op == "1":
+        moneda = "USD"
+    elif moneda_op == "2":
+        moneda = "EUR"
+    elif moneda_op == "3":
+        moneda = "COP"
+    elif moneda_op == "4":
+        moneda = "MXN"
+    else:
+        moneda = "USD"
+    
+    try:
+        stock = int(input("Stock disponible: "))
+    except ValueError:
+        print(" Stock inválido.")
+        return
+    
+    categoria = input("Categoría: ").strip()
+
+    producto = {
+        "id": id_p,
+        "nombre": nombre,
+        "descripcion": descripcion,
+        "precio": precio,
+        "moneda": moneda,
+        "stock": stock,
+        "categoria": categoria
+    }
+
+    productos.append(producto)
+    ids_registrados.add(id_p)
+    print("✓ Producto creado correctamente.")
+
+# LISTAR PRODUCTOS
+def listar_productos(productos):
+    if not productos:
+        print("No hay productos registrados.")
+        return
+
+    print(f"\n{'ID':<10}{'Nombre':<20}{'Precio':<12}{'Stock':<8}{'Estado':<15}{'Categoría'}")
+    print("-" * 90)
+
+    for p in productos:
+        estado = "✅ Disponible" if p['stock'] > 0 else "❌ Agotado"
+        print(
+            f"{p['id']:<10}"
+            f"{p['nombre']:<20}"
+            f"{p['precio']} {p['moneda']:<8}"
+            f"{p['stock']:<8}"
+            f"{estado:<15}"
+            f"{p['categoria']}"
+        )
