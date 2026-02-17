@@ -1,0 +1,14 @@
+{
+    "productos": [
+        {
+            "id": "3e8eaea0",
+            "nombre": "Lechuga",
+            "descripcion": "Verduras",
+            "precio": 4000.0,
+            "moneda": "COP",
+            "stock": 100,
+            "categoria": "Comida",
+            "client_id": "00313e0a-69f5-4d49-8434-f49032aadec6"
+        }
+    ]
+}

@@ -1,39 +1,35 @@
-# ==============================
+# ==================================================
 # MAIN - ECOMMERCE FRAMEWORK
-# ==============================
+# ==================================================
 
 from services.auth_service import ServicioAutenticacion
 from services.auth_user_service import ServicioAutenticacionUsuario
+from services.product_service import ServicioProducto
 
 
-# ==============================
-# FUNCIONES DE MENÚ
-# ==============================
+# ==================================================
+# UTILIDADES VISUALES
+# ==================================================
 
 def linea():
-    print("=" * 50)
+    print("=" * 55)
 
 
-def mostrar_menu_principal():
+def titulo(texto):
     linea()
-    print("        E-COMMERCE FRAMEWORK")
-    linea()
-    print("1. Registrar tienda")
-    print("2. Iniciar sesión tienda")
-    print("3. Usuario final")
-    print("4. Salir")
+    print(texto.center(55))
     linea()
 
+
+# ==================================================
+# MENÚ USUARIO FINAL (COMPRADOR)
+# ==================================================
 
 def menu_usuario_final(servicio_usuario):
-    """
-    Menú para registro e inicio de sesión
-    de usuarios finales (compradores)
-    """
+
     while True:
-        linea()
-        print("          USUARIO FINAL")
-        linea()
+        titulo("USUARIO FINAL")
+
         print("1. Registrarse")
         print("2. Iniciar sesión")
         print("3. Volver")
@@ -42,35 +38,32 @@ def menu_usuario_final(servicio_usuario):
         opcion = input("Seleccione una opción: ")
 
         if opcion == "1":
-            print("\n--- REGISTRO DE USUARIO ---")
+            titulo("REGISTRO DE USUARIO")
+
             nombre = input("Nombre: ")
             correo = input("Correo: ")
             contrasena = input("Contraseña: ")
 
             exito, mensaje = servicio_usuario.registrar_usuario(
-                nombre,
-                correo,
-                contrasena
+                nombre, correo, contrasena
             )
 
-            print(f"\n{mensaje}")
+            print("\n" + mensaje)
 
         elif opcion == "2":
-            print("\n--- INICIO DE SESIÓN USUARIO ---")
+            titulo("LOGIN USUARIO")
+
             correo = input("Correo: ")
             contrasena = input("Contraseña: ")
 
             exito, resultado = servicio_usuario.iniciar_sesion(
-                correo,
-                contrasena
+                correo, contrasena
             )
 
             if exito:
-                linea()
-                print(f" Bienvenido {resultado['nombre']} ")
-                linea()
+                titulo(f"Bienvenido {resultado['nombre']}")
             else:
-                print(f"\n{resultado}")
+                print("\n" + resultado)
 
         elif opcion == "3":
             break
@@ -79,27 +72,112 @@ def menu_usuario_final(servicio_usuario):
             print("Opción inválida.")
 
 
-# ==============================
+# ==================================================
+# MENÚ ADMINISTRADOR DE PRODUCTOS (TIENDA)
+# ==================================================
+
+def menu_admin_productos(servicio_producto, cliente):
+
+    while True:
+        titulo(f"PANEL ADMIN - {cliente['nombre']}")
+
+        print("1. Crear producto")
+        print("2. Ver mis productos")
+        print("3. Volver")
+        linea()
+
+        opcion = input("Seleccione opción: ")
+
+        # ------------------------------
+        # CREAR PRODUCTO
+        # ------------------------------
+        if opcion == "1":
+            titulo("CREAR PRODUCTO")
+
+            try:
+                nombre = input("Nombre producto: ")
+                descripcion = input("Descripción: ")
+                precio = float(input("Precio: "))
+                moneda = input("Moneda (COP/USD/EUR): ")
+                stock = int(input("Stock: "))
+                categoria = input("Categoría: ")
+
+                exito, mensaje = servicio_producto.crear_producto(
+                    nombre,
+                    descripcion,
+                    precio,
+                    moneda,
+                    stock,
+                    categoria,
+                    cliente["id"]
+                )
+
+                print("\n" + mensaje)
+
+            except ValueError:
+                print("\nError: precio o stock inválido.")
+
+        # ------------------------------
+        # VER PRODUCTOS
+        # ------------------------------
+        elif opcion == "2":
+            titulo("MIS PRODUCTOS")
+
+            productos = servicio_producto.obtener_catalogo(cliente["id"])
+
+            if not productos:
+                print("No tienes productos registrados.")
+            else:
+                for p in productos:
+                    print(f"""
+ID: {p['id']}
+Nombre: {p['nombre']}
+Precio: {p['precio']} {p['moneda']}
+Stock: {p['stock']}
+Categoría: {p['categoria']}
+---------------------------------------
+""")
+
+        elif opcion == "3":
+            break
+
+        else:
+            print("Opción inválida.")
+
+
+# ==================================================
+# MENÚ PRINCIPAL
+# ==================================================
+
+def mostrar_menu_principal():
+    titulo("E-COMMERCE FRAMEWORK")
+
+    print("1. Registrar tienda")
+    print("2. Iniciar sesión tienda")
+    print("3. Usuario final")
+    print("4. Salir")
+    linea()
+
+
+# ==================================================
 # FUNCIÓN PRINCIPAL
-# ==============================
+# ==================================================
 
 def main():
 
-    # Instancias de servicios
     servicio_auth = ServicioAutenticacion()
     servicio_usuario = ServicioAutenticacionUsuario()
+    servicio_producto = ServicioProducto()
 
     while True:
         mostrar_menu_principal()
         opcion = input("Seleccione una opción: ")
 
         # ------------------------------
-        # REGISTRO DE TIENDA
+        # REGISTRO TIENDA
         # ------------------------------
         if opcion == "1":
-            linea()
-            print("      REGISTRO DE TIENDA")
-            linea()
+            titulo("REGISTRO DE TIENDA")
 
             nombre = input("Nombre de la tienda: ")
             correo = input("Correo: ")
@@ -113,25 +191,27 @@ def main():
                 idioma
             )
 
-            print(f"\n{resultado}")
+            print("\n" + resultado)
 
         # ------------------------------
-        # LOGIN DE TIENDA
+        # LOGIN TIENDA
         # ------------------------------
         elif opcion == "2":
-            linea()
-            print("     INICIO DE SESIÓN TIENDA")
-            linea()
+            titulo("LOGIN TIENDA")
 
             correo = input("Correo: ")
             contrasena = input("Contraseña: ")
 
-            resultado = servicio_auth.iniciar_sesion(
+            exito, resultado = servicio_auth.iniciar_sesion(
                 correo,
                 contrasena
             )
 
-            print(f"\n{resultado}")
+            if exito:
+                titulo(f"Bienvenido {resultado['nombre']}")
+                menu_admin_productos(servicio_producto, resultado)
+            else:
+                print("\n" + resultado)
 
         # ------------------------------
         # USUARIO FINAL
@@ -147,12 +227,12 @@ def main():
             break
 
         else:
-            print("Opción inválida, intente nuevamente.")
+            print("Opción inválida.")
 
 
-# ==============================
+# ==================================================
 # EJECUCIÓN
-# ==============================
+# ==================================================
 
 if __name__ == "__main__":
     main()

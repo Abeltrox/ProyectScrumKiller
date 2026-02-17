@@ -33,11 +33,11 @@ class ServicioAutenticacion:
 
         if not cliente:
             logger.warning("Cliente no encontrado")
-            return "Cliente no encontrado"
+            return False, "Cliente no encontrado"
 
         if not verificar_contrasena(contrasena, cliente["contrasena"]):
             logger.warning("Contraseña incorrecta")
-            return "Credenciales inválidas"
+            return False, "Credenciales inválidas"
 
         logger.info("Inicio de sesión exitoso")
-        return "Inicio de sesión exitoso"
+        return True, cliente
