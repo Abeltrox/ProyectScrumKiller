@@ -6,6 +6,30 @@ RUTA_PRODUCTOS = BASE_DIR / "database" / "productos.json"
 
 class RepositorioProducto:
 
+    def actualizar_producto(self, producto_actualizado):
+        datos = self._leer_archivo()
+
+        for i, producto in enumerate(datos["productos"]):
+            if producto["id"] == producto_actualizado["id"]:
+                datos["productos"][i] = producto_actualizado
+                self._guardar_archivo(datos)
+                return True
+
+        return False
+
+    def eliminar_producto(self, producto_id, client_id):
+        datos = self._leer_archivo()
+
+        for producto in datos["productos"]:
+            if producto["id"] == producto_id and producto["client_id"] == client_id:
+                datos["productos"].remove(producto)
+                self._guardar_archivo(datos)
+                return True
+
+        return False
+
+
+
     def _leer_archivo(self):
         if not RUTA_PRODUCTOS.exists():
             return {"productos": []}

@@ -83,7 +83,9 @@ def menu_admin_productos(servicio_producto, cliente):
 
         print("1. Crear producto")
         print("2. Ver mis productos")
-        print("3. Volver")
+        print("3. Actualizar producto")
+        print("4. Eliminar producto")
+        print("5. Volver")
         linea()
 
         opcion = input("Seleccione opción: ")
@@ -132,13 +134,98 @@ def menu_admin_productos(servicio_producto, cliente):
                     print(f"""
 ID: {p['id']}
 Nombre: {p['nombre']}
+Descripción: {p['descripcion']}
 Precio: {p['precio']} {p['moneda']}
 Stock: {p['stock']}
 Categoría: {p['categoria']}
----------------------------------------
-""")
+---------------------------------------""")
 
+        # ------------------------------
+        # ACTUALIZAR PRODUCTO
+        # ------------------------------
         elif opcion == "3":
+            titulo("ACTUALIZAR PRODUCTO")
+
+            productos = servicio_producto.obtener_catalogo(cliente["id"])
+
+            if not productos:
+                print("No tienes productos registrados.")
+            else:
+                for p in productos:
+                    print(f"  ID: {p['id']} | {p['nombre']} | Precio: {p['precio']} {p['moneda']} | Stock: {p['stock']}")
+                linea()
+
+                producto_id = input("ID del producto a actualizar: ").strip()
+
+                print("\nDeja en blanco los campos que no quieras cambiar.")
+
+                datos_actualizados = {}
+
+                nuevo_nombre = input("Nuevo nombre: ").strip()
+                if nuevo_nombre:
+                    datos_actualizados["nombre"] = nuevo_nombre
+
+                nueva_desc = input("Nueva descripción: ").strip()
+                if nueva_desc:
+                    datos_actualizados["descripcion"] = nueva_desc
+
+                nuevo_precio = input("Nuevo precio: ").strip()
+                if nuevo_precio:
+                    try:
+                        datos_actualizados["precio"] = float(nuevo_precio)
+                    except ValueError:
+                        print("Precio inválido, no se modificará.")
+
+                nueva_moneda = input("Nueva moneda (COP/USD/EUR): ").strip()
+                if nueva_moneda:
+                    datos_actualizados["moneda"] = nueva_moneda
+
+                nuevo_stock = input("Nuevo stock: ").strip()
+                if nuevo_stock:
+                    try:
+                        datos_actualizados["stock"] = int(nuevo_stock)
+                    except ValueError:
+                        print("Stock inválido, no se modificará.")
+
+                nueva_categoria = input("Nueva categoría: ").strip()
+                if nueva_categoria:
+                    datos_actualizados["categoria"] = nueva_categoria
+
+                if datos_actualizados:
+                    exito, mensaje = servicio_producto.actualizar_producto(
+                        producto_id, datos_actualizados, cliente["id"]
+                    )
+                    print("\n" + mensaje)
+                else:
+                    print("\nNo se realizaron cambios.")
+
+        # ------------------------------
+        # ELIMINAR PRODUCTO
+        # ------------------------------
+        elif opcion == "4":
+            titulo("ELIMINAR PRODUCTO")
+
+            productos = servicio_producto.obtener_catalogo(cliente["id"])
+
+            if not productos:
+                print("No tienes productos registrados.")
+            else:
+                for p in productos:
+                    print(f"  ID: {p['id']} | {p['nombre']} | Stock: {p['stock']}")
+                linea()
+
+                producto_id = input("ID del producto a eliminar: ").strip()
+                confirmacion = input(f"¿Estás seguro de eliminar el producto '{producto_id}'? (s/n): ").lower().strip()
+
+                if confirmacion == "s":
+                    exito, mensaje = servicio_producto.eliminar_producto(
+                        producto_id, cliente["id"]
+                    )
+                    print("\n" + mensaje)
+                else:
+                    print("\nOperación cancelada.")
+
+        elif opcion == "5":
             break
 
         else:
@@ -173,9 +260,6 @@ def main():
         mostrar_menu_principal()
         opcion = input("Seleccione una opción: ")
 
-        # ------------------------------
-        # REGISTRO TIENDA
-        # ------------------------------
         if opcion == "1":
             titulo("REGISTRO DE TIENDA")
 
@@ -193,9 +277,6 @@ def main():
 
             print("\n" + resultado)
 
-        # ------------------------------
-        # LOGIN TIENDA
-        # ------------------------------
         elif opcion == "2":
             titulo("LOGIN TIENDA")
 
@@ -213,15 +294,9 @@ def main():
             else:
                 print("\n" + resultado)
 
-        # ------------------------------
-        # USUARIO FINAL
-        # ------------------------------
         elif opcion == "3":
             menu_usuario_final(servicio_usuario)
 
-        # ------------------------------
-        # SALIR
-        # ------------------------------
         elif opcion == "4":
             print("\nSaliendo del sistema...")
             break
