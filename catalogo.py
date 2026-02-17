@@ -65,3 +65,58 @@ def cargar_clientes_bd(archivo_clientes):
         print(f"Error al cargar tiendas: {e}")
 
     return clientes
+
+
+# FILTRAR PRODUCTOS CON STOCK DISPONIBLE
+def obtener_productos_disponibles(productos):
+    """
+    Filtra solo productos con stock > 0
+    Criterio: Solo aparecen productos con stock > 0
+    """
+    return [p for p in productos if p['stock'] > 0]
+
+
+# MOSTRAR CATÁLOGO COMPLETO (TODAS LAS TIENDAS)
+def mostrar_catalogo_completo():
+    """
+    Muestra la lista de productos disponibles en todas las tiendas
+    
+    Criterios de aceptación:
+    - Se muestran nombre, precio y stock
+    - Solo aparecen productos con stock > 0
+    - La información se obtiene desde la base de datos
+    """
+    print("\n" + "="*70)
+    print("           CATÁLOGO DE PRODUCTOS - TODAS LAS TIENDAS")
+    print("="*70)
+    
+    # Obtener información desde la base de datos
+    productos = cargar_productos_bd("database/productos.txt")
+    clientes = cargar_clientes_bd("database/clientes.txt")
+    
+    # Filtrar solo productos con stock > 0
+    productos_disponibles = obtener_productos_disponibles(productos)
+    
+    if not productos_disponibles:
+        print("\n📭 No hay productos disponibles en este momento")
+        return productos_disponibles
+    
+    print(f"\nProductos disponibles: {len(productos_disponibles)}")
+    print()
+    
+    # Mostrar nombre, precio y stock
+    print(f"{'#':<5}{'NOMBRE':<25}{'PRECIO':<15}{'STOCK':<10}{'TIENDA'}")
+    print("-"*70)
+    
+    for i, p in enumerate(productos_disponibles, 1):
+        nombre_tienda = clientes.get(p['client_id'], {}).get('nombre_negocio', 'Desconocida')
+        print(
+            f"{i:<5}"
+            f"{p['nombre'][:24]:<25}"
+            f"{p['precio']} {p['moneda']:<11}"
+            f"{p['stock']:<10}"
+            f"{nombre_tienda}"
+        )
+    
+    print("-"*70)
+    return productos_disponibles
