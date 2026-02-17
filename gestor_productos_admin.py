@@ -188,4 +188,36 @@ def eliminar_producto(productos, ids_registrados):
             return
 
     print(" No se encontró un producto con ese ID.")
-    
+
+    # GUARDAR PRODUCTOS
+def guardar_productos(archivo_productos, productos):
+    # Guardar en TXT
+    try:
+        with open(archivo_productos, "w", encoding="utf-8") as archivo:
+            for p in productos:
+                archivo.write(
+                    f"{p['id']},{p['nombre']},{p['descripcion']},"
+                    f"{p['precio']},{p['moneda']},{p['stock']},{p['categoria']}\n"
+                )
+        print("✓ Productos guardados en TXT.")
+    except Exception as e:
+        print(f" Error al guardar en TXT: {e}")
+
+    # Guardar en JSON
+    try:
+        with open("productos.json", "w", encoding="utf-8") as archivo:
+            json.dump(productos, archivo, indent=4, ensure_ascii=False)
+        print("✓ Productos guardados en JSON.")
+    except Exception as e:
+        print(f" Error al guardar en JSON: {e}")
+
+    # Guardar en CSV
+    try:
+        with open("productos.csv", "w", newline="", encoding="utf-8") as archivo:
+            if productos:
+                writer = csv.DictWriter(archivo, fieldnames=["id", "nombre", "descripcion", "precio", "moneda", "stock", "categoria"])
+                writer.writeheader()
+                writer.writerows(productos)
+        print("✓ Productos guardados en CSV.")
+    except Exception as e:
+        print(f" Error al guardar en CSV: {e}")
