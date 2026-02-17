@@ -122,3 +122,33 @@ def listar_productos(productos):
             f"{estado:<15}"
             f"{p['categoria']}"
         )
+
+# ACTUALIZAR PRODUCTO
+def actualizar_producto(productos):
+    id_p = input("Ingrese el ID del producto a actualizar: ").strip()
+
+    for p in productos:
+        if p["id"] == id_p:
+            p["nombre"] = input(f"Nuevo nombre [{p['nombre']}]: ").strip() or p["nombre"]
+            p["descripcion"] = input(f"Nueva descripción [{p['descripcion']}]: ").strip() or p["descripcion"]
+            
+            try:
+                nuevo_precio = input(f"Nuevo precio [{p['precio']}]: ").strip()
+                if nuevo_precio:
+                    p["precio"] = float(nuevo_precio)
+            except ValueError:
+                print("Precio no modificado.")
+            
+            try:
+                nuevo_stock = input(f"Nuevo stock [{p['stock']}]: ").strip()
+                if nuevo_stock:
+                    p["stock"] = int(nuevo_stock)
+            except ValueError:
+                print("Stock no modificado.")
+            
+            p["categoria"] = input(f"Nueva categoría [{p['categoria']}]: ").strip() or p["categoria"]
+
+            print("✓ Producto actualizado correctamente.")
+            return
+
+    print(" Producto no encontrado.")
