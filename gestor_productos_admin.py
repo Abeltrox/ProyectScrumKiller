@@ -221,3 +221,70 @@ def guardar_productos(archivo_productos, productos):
         print("✓ Productos guardados en CSV.")
     except Exception as e:
         print(f" Error al guardar en CSV: {e}")
+
+# MENÚ ADMINISTRADOR DE PRODUCTOS
+def menu_admin_productos():
+    archivo = "productos.txt"
+    productos, ids_registrados, categorias = cargar_productos(archivo)
+
+    while True:
+        print("\n" + "="*40)
+        print("    ADMINISTRACIÓN DE PRODUCTOS")
+        print("="*40)
+        print("1. Listar productos")
+        print("2. Crear producto")
+        print("3. Buscar producto")
+        print("4. Actualizar producto")
+        print("5. Actualizar stock")
+        print("6. Eliminar producto")
+        print("7. Guardar cambios")
+        print("8. Salir")
+        print("="*40)
+
+        opcion = input("Seleccione una opción: ").strip()
+
+        if opcion == "1":
+            listar_productos(productos)
+
+        elif opcion == "2":
+            crear_producto(productos, ids_registrados)
+
+        elif opcion == "3":
+            id_buscar = input("Ingrese el ID del producto: ").strip()
+            producto = buscar_producto(productos, id_buscar)
+            if producto:
+                print("\n✓ Producto encontrado:")
+                print(f"ID: {producto['id']}")
+                print(f"Nombre: {producto['nombre']}")
+                print(f"Descripción: {producto['descripcion']}")
+                print(f"Precio: {producto['precio']} {producto['moneda']}")
+                print(f"Stock: {producto['stock']}")
+                print(f"Categoría: {producto['categoria']}")
+            else:
+                print(" Producto no encontrado.")
+
+        elif opcion == "4":
+            actualizar_producto(productos)
+
+        elif opcion == "5":
+            actualizar_stock(productos)
+
+        elif opcion == "6":
+            eliminar_producto(productos, ids_registrados)
+
+        elif opcion == "7":
+            guardar_productos(archivo, productos)
+
+        elif opcion == "8":
+            guardar = input("¿Desea guardar antes de salir? (s/n): ").lower().strip()
+            if guardar == "s":
+                guardar_productos(archivo, productos)
+            print("Saliendo del administrador de productos...")
+            break
+
+        else:
+            print(" Opción no válida. Intente nuevamente.")
+
+
+if __name__ == "__main__":
+    menu_admin_productos()
