@@ -40,3 +40,28 @@ def cargar_productos_bd(archivo_productos):
     return productos
 
 
+# CARGAR INFORMACIÓN DE TIENDAS/CLIENTES
+def cargar_clientes_bd(archivo_clientes):
+    """
+    Obtiene información de las tiendas desde la base de datos
+    """
+    clientes = {}
+
+    try:
+        with open(archivo_clientes, "r", encoding="utf-8") as archivo:
+            for linea in archivo:
+                partes = linea.strip().split(",")
+                
+                # id, username, email, password, nombre_negocio, telefono, direccion
+                if len(partes) == 7:
+                    clientes[partes[0]] = {
+                        "id": partes[0],
+                        "nombre_negocio": partes[4]
+                    }
+
+    except FileNotFoundError:
+        print("  No hay información de tiendas.")
+    except Exception as e:
+        print(f"Error al cargar tiendas: {e}")
+
+    return clientes
