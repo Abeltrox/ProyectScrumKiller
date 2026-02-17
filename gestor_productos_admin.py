@@ -152,3 +152,39 @@ def actualizar_producto(productos):
             return
 
     print(" Producto no encontrado.")
+
+# ACTUALIZAR STOCK
+def actualizar_stock(productos):
+    id_p = input("ID del producto: ").strip()
+    
+    for p in productos:
+        if p["id"] == id_p:
+            try:
+                nuevo_stock = int(input(f"Nuevo stock [{p['stock']}]: "))
+                p["stock"] = nuevo_stock
+                print("✓ Stock actualizado correctamente.")
+                return
+            except ValueError:
+                print(" Stock inválido.")
+                return
+    
+    print(" Producto no encontrado.")
+
+
+    
+# ELIMINAR PRODUCTO
+def eliminar_producto(productos, ids_registrados):
+    id_p = input("Ingrese el ID del producto a eliminar: ").strip()
+
+    for p in productos:
+        if p["id"] == id_p:
+            confirmacion = input(f"¿Está seguro de eliminar '{p['nombre']}'? (s/n): ").lower().strip()
+            if confirmacion == 's':
+                productos.remove(p)
+                ids_registrados.remove(id_p)
+                print("✓ Producto eliminado correctamente.")
+            else:
+                print("Operación cancelada.")
+            return
+
+    print(" No se encontró un producto con ese ID.")
