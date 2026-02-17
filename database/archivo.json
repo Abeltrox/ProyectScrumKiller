@@ -13,6 +13,13 @@
             "correo": "makro@gmail.com",
             "contrasena": "8fa9249de138dea7ffe13013b87e4c505b55277cfd461644e89ccad6d41e077b",
             "idioma": "en"
+        },
+        {
+            "id": "3ea9c8b1-4c72-4919-a85b-ab268448841b",
+            "nombre": "Alkosto",
+            "correo": "alkosto@gmail.com",
+            "contrasena": "88c91647187e6c6441d3f726bd0e32cca1910ef8f9eef4bf1f0395fbc8909d77",
+            "idioma": "en"
         }
     ],
     "usuarios": [],

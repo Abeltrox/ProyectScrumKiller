@@ -1,0 +1,10 @@
+{
+    "usuarios": [
+        {
+            "id": "7364fd12",
+            "nombre": "Guerra",
+            "correo": "guerra@gatitas.com",
+            "contrasena_hash": "a89da93f921362ce1c8e56f5d1c3c945af967cd1f6e13e07aac98cae96b5638b"
+        }
+    ]
+}
