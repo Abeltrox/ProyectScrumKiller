@@ -46,7 +46,7 @@ def main():
 
             if resultado == "Inicio de sesión exitoso":
                 print("Bienvenido al panel de administración de la tienda.")
-
+                print(f"Bienvenido, {nombre}")
         elif opcion == "3":
             print("Saliendo del sistema...")
             break
