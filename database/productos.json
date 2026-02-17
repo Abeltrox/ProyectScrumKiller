@@ -9,6 +9,16 @@
             "stock": 100,
             "categoria": "Comida",
             "client_id": "00313e0a-69f5-4d49-8434-f49032aadec6"
+        },
+        {
+            "id": "265f2eee",
+            "nombre": "Java route",
+            "descripcion": "Java route with Jolhver",
+            "precio": 12000000.0,
+            "moneda": "COP",
+            "stock": 24,
+            "categoria": "Curso",
+            "client_id": "1e01c937-6e62-4535-a75e-4d67440da91b"
         }
     ]
 }

@@ -20,6 +20,13 @@
             "correo": "alkosto@gmail.com",
             "contrasena": "88c91647187e6c6441d3f726bd0e32cca1910ef8f9eef4bf1f0395fbc8909d77",
             "idioma": "en"
+        },
+        {
+            "id": "1e01c937-6e62-4535-a75e-4d67440da91b",
+            "nombre": "Campuslands",
+            "correo": "campuslands@gmail.com",
+            "contrasena": "4cb48ed6cefe9853cacd04ff0781db81bcdc417641761b637addc5cc000b2c69",
+            "idioma": "en"
         }
     ],
     "usuarios": [],

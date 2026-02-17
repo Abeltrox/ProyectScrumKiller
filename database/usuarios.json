@@ -5,6 +5,12 @@
             "nombre": "Guerra",
             "correo": "guerra@gatitas.com",
             "contrasena_hash": "a89da93f921362ce1c8e56f5d1c3c945af967cd1f6e13e07aac98cae96b5638b"
+        },
+        {
+            "id": "76f0f875",
+            "nombre": "Conde",
+            "correo": "condez.juanp@gmail.com",
+            "contrasena_hash": "a1ccfff49546cfd07328c9cbebc80237e700724edece88d3d6492485ecb20b6b"
         }
     ]
 }

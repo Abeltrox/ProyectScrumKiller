@@ -33,3 +33,7 @@ class RepositorioCliente:
             if cliente["correo"] == correo:
                 return cliente
         return None
+
+    def obtener_todos(self):
+        datos = self._leer_base_de_datos()
+        return datos["clientes"]

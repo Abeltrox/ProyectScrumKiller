@@ -1,0 +1,24 @@
+{
+    "ordenes": [
+        {
+            "id": "6DF848F5",
+            "usuario_id": "76f0f875",
+            "client_id": "1e01c937-6e62-4535-a75e-4d67440da91b",
+            "items": [
+                {
+                    "producto_id": "265f2eee",
+                    "nombre": "Java route",
+                    "cantidad": 1,
+                    "precio_unitario": 12000000.0,
+                    "moneda": "COP",
+                    "client_id": "1e01c937-6e62-4535-a75e-4d67440da91b"
+                }
+            ],
+            "total": 12000000.0,
+            "moneda": "COP",
+            "transaccion_id": "CD66D66E-FF7",
+            "estado": "PAGADA",
+            "fecha": "2026-02-17 17:54:55"
+        }
+    ]
+}

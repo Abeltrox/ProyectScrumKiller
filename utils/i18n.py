@@ -77,9 +77,9 @@ TRADUCCIONES = {
         "nombre": "Nombre: ",
 
         # Catálogo
-        "ver_catalogo": "3. Ver catálogo de tienda",
-        "mis_ordenes": "4. Ver mis órdenes",
-        "pagar": "5. Realizar pago",
+        "ver_catalogo": "1. Ver catálogo de tienda",
+        "mis_ordenes": "2. Ver mis órdenes",
+        "pagar": "3. Realizar pago",
         "catalogo_titulo": "CATÁLOGO DE PRODUCTOS",
         "ingrese_id_tienda": "Ingrese ID de la tienda: ",
         "catalogo_vacio": "Esta tienda no tiene productos disponibles.",
@@ -176,9 +176,9 @@ TRADUCCIONES = {
         "nombre": "Name: ",
 
         # Catalog
-        "ver_catalogo": "3. View store catalog",
-        "mis_ordenes": "4. View my orders",
-        "pagar": "5. Make a payment",
+        "ver_catalogo": "1. View store catalog",
+        "mis_ordenes": "2. View my orders",
+        "pagar": "3. Make a payment",
         "catalogo_titulo": "PRODUCT CATALOG",
         "ingrese_id_tienda": "Enter store ID: ",
         "catalogo_vacio": "This store has no available products.",
