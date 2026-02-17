@@ -188,3 +188,4 @@ def eliminar_producto(productos, ids_registrados):
             return
 
     print(" No se encontró un producto con ese ID.")
+    
