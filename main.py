@@ -9,6 +9,8 @@ from services.payment_service import ServicioPago
 from services.order_service import ServicioOrdenes
 from repositories.client_repository import RepositorioCliente
 from utils.i18n import t
+from services.checkout_service import procesar_checkout
+
 
 
 # ==================================================
