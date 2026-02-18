@@ -7,14 +7,14 @@ from repositories.cart_repository import (
 
 def procesar_checkout(archivo_carrito, archivo_productos, usuario_id):
 
-    # 1️⃣ Cargar carrito
+    # 1️ Cargar carrito
     mi_carrito, todos_carritos = cargar_carrito(archivo_carrito, usuario_id)
 
     if not mi_carrito:
         print("\nEl carrito está vacío. No se puede continuar con el checkout.")
         return False
 
-    # 2️⃣ Cargar productos
+    # 2️ Cargar productos
     productos = cargar_productos_para_carrito(archivo_productos)
 
     print("\n=========== RESUMEN DE COMPRA ===========")
@@ -42,14 +42,14 @@ def procesar_checkout(archivo_carrito, archivo_productos, usuario_id):
     print(f"TOTAL A PAGAR: {total}")
     print("=========================================")
 
-    # 3️⃣ Confirmación
+    # 3️ Confirmación
     confirmacion = input("\n¿Desea confirmar la compra? (s/n): ")
 
     if confirmacion.lower() != "s":
         print("\nCompra cancelada.")
         return False
 
-    # 4️⃣ Eliminar items del usuario del carrito
+    # 4️ Eliminar items del usuario del carrito
     todos_carritos = [
         item for item in todos_carritos
         if item["usuario_id"] != usuario_id
@@ -59,3 +59,4 @@ def procesar_checkout(archivo_carrito, archivo_productos, usuario_id):
 
     print("\nCompra realizada con éxito.")
     return True
+# Fin de checkout_service.py
