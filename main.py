@@ -9,8 +9,6 @@ from services.payment_service import ServicioPago
 from services.order_service import ServicioOrdenes
 from repositories.client_repository import RepositorioCliente
 from utils.i18n import t
-from services.checkout_service import procesar_checkout
-
 
 
 # ==================================================
@@ -74,14 +72,6 @@ def flujo_pago(servicio_pago, servicio_ordenes, usuario, carrito, idioma="es"):
     print(f"Orden ID: {orden['id']}")
     return True
 
-def flujo_checkout(servicio_pago, servicio_ordenes, usuario, carrito, idioma="es"):
-    return procesar_checkout(
-        servicio_pago,
-        servicio_ordenes,
-        usuario,
-        carrito,
-        idioma
-    )
 
 # ==================================================
 # TAREA 9 - VER ORDENES USUARIO FINAL
@@ -209,7 +199,7 @@ def menu_usuario_logueado(servicio_producto, servicio_pago, servicio_ordenes, us
                                         "moneda": producto["moneda"],
                                         "client_id": producto["client_id"]
                                     }]
-                                    flujo_checkout(servicio_pago, servicio_ordenes, usuario, carrito, idioma)
+                                    flujo_pago(servicio_pago, servicio_ordenes, usuario, carrito, idioma)
                             except ValueError:
                                 print("Cantidad invalida.")
 
@@ -469,4 +459,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    # Fin de main.py
