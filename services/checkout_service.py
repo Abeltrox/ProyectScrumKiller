@@ -49,5 +49,4 @@ class CheckoutService:
 
         print("\nCompra realizada con éxito.")
         return True
-    
-    
+    #fin checkout
