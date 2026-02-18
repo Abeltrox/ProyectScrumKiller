@@ -72,6 +72,14 @@ def flujo_pago(servicio_pago, servicio_ordenes, usuario, carrito, idioma="es"):
     print(f"Orden ID: {orden['id']}")
     return True
 
+def flujo_checkout(servicio_pago, servicio_ordenes, usuario, carrito, idioma="es"):
+    return procesar_checkout(
+        servicio_pago,
+        servicio_ordenes,
+        usuario,
+        carrito,
+        idioma
+    )
 
 # ==================================================
 # TAREA 9 - VER ORDENES USUARIO FINAL
@@ -199,7 +207,7 @@ def menu_usuario_logueado(servicio_producto, servicio_pago, servicio_ordenes, us
                                         "moneda": producto["moneda"],
                                         "client_id": producto["client_id"]
                                     }]
-                                    flujo_pago(servicio_pago, servicio_ordenes, usuario, carrito, idioma)
+                                    flujo_checkout(servicio_pago, servicio_ordenes, usuario, carrito, idioma)
                             except ValueError:
                                 print("Cantidad invalida.")
 
