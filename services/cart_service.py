@@ -9,16 +9,6 @@ def agregar_producto_carrito(usuario_id, producto_id, cantidad, carrito, todos_c
     - Debe haber stock suficiente
     - Cantidad debe ser válida
     
-    Args:
-        usuario_id: ID del usuario
-        producto_id: ID del producto a agregar
-        cantidad: Cantidad a agregar
-        carrito: Carrito del usuario actual
-        todos_carritos: Todos los carritos
-        productos: Diccionario de productos disponibles
-    
-    Returns:
-        tuple: (carrito_actualizado, todos_carritos_actualizado, exito)
     """
     # Validar que el producto existe
     if producto_id not in productos:
@@ -87,3 +77,95 @@ def agregar_producto_carrito(usuario_id, producto_id, cantidad, carrito, todos_c
     print("="*50)
     
     return carrito, todos_carritos, True
+
+def modificar_cantidad_producto(usuario_id, numero_producto, nueva_cantidad, carrito, todos_carritos, productos):
+    """
+    Modifica la cantidad de un producto en el carrito
+    """
+    if not carrito:
+        print("\n🛒 Tu carrito está vacío")
+        return carrito, todos_carritos, False
+    
+    if numero_producto < 1 or numero_producto > len(carrito):
+        print(" Número de producto inválido.")
+        return carrito, todos_carritos, False
+    
+    item = carrito[numero_producto - 1]
+    producto = productos.get(item["producto_id"])
+    
+    if not producto:
+        print(" Producto no disponible.")
+        return carrito, todos_carritos, False
+    
+    # Validar nueva cantidad
+    if nueva_cantidad < 0:
+        print(" La cantidad no puede ser negativa.")
+        return carrito, todos_carritos, False
+    
+    if nueva_cantidad > producto['stock']:
+        print(f" Stock insuficiente. Disponible: {producto['stock']}")
+        return carrito, todos_carritos, False
+    
+    if nueva_cantidad == 0:
+        # Eliminar del carrito
+        carrito.remove(item)
+        # Eliminar de todos_carritos
+        todos_carritos = [
+            c for c in todos_carritos 
+            if not (c["usuario_id"] == usuario_id and c["producto_id"] == item["producto_id"])
+        ]
+        print("✓ Producto eliminado del carrito.")
+    else:
+        # Actualizar cantidad
+        item["cantidad"] = nueva_cantidad
+        # Actualizar en todos_carritos
+        for c in todos_carritos:
+            if c["usuario_id"] == usuario_id and c["producto_id"] == item["producto_id"]:
+                c["cantidad"] = nueva_cantidad
+                break
+        print("✓ Cantidad actualizada.")
+    
+    return carrito, todos_carritos, True
+
+
+def vaciar_carrito_usuario(usuario_id, carrito, todos_carritos):
+    """
+    Elimina todos los productos del carrito del usuario
+    
+    """
+    if not carrito:
+        print("\n🛒 Tu carrito ya está vacío")
+        return carrito, todos_carritos
+    
+    # Eliminar todos los items del usuario de todos_carritos
+    todos_carritos = [c for c in todos_carritos if c["usuario_id"] != usuario_id]
+    carrito = []
+    print("✓ Carrito vaciado.")
+    
+    return carrito, todos_carritos
+
+
+def calcular_total_carrito(carrito, productos):
+    """
+    Calcula el total del carrito
+    
+    """
+    total = 0
+    moneda = "USD"
+    
+    for item in carrito:
+        producto = productos.get(item["producto_id"])
+        if producto:
+            subtotal = producto['precio'] * item['cantidad']
+            total += subtotal
+            moneda = producto['moneda']
+    
+    return total, moneda
+
+
+def obtener_productos_disponibles(productos):
+    """
+    Filtra productos con stock > 0
+
+    """
+    return {k: v for k, v in productos.items() if v['stock'] > 0}
