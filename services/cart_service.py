@@ -4,10 +4,6 @@ def agregar_producto_carrito(usuario_id, producto_id, cantidad, carrito, todos_c
     """
     Agrega un producto al carrito con validaciones
     
-    Validaciones:
-    - Producto debe existir
-    - Debe haber stock suficiente
-    - Cantidad debe ser válida
     
     """
     # Validar que el producto existe
