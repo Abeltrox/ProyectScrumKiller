@@ -10,7 +10,7 @@ class CheckoutService:
 
         cart = self.cart_repository.get_cart_by_user(user_id)
 
-        # 1️⃣ Validar carrito vacío
+        # 1️ Validar carrito vacío
         if not cart or len(cart.get("products", [])) == 0:
             print("\nEl carrito está vacío. No se puede continuar.")
             return False
@@ -27,14 +27,14 @@ class CheckoutService:
         print(f"TOTAL: ${total}")
         print("=====================================")
 
-        # 2️⃣ Confirmación
+        # 2️ Confirmación
         confirmacion = input("\n¿Confirmar compra? (s/n): ")
 
         if confirmacion.lower() != "s":
             print("\nCompra cancelada.")
             return False
 
-        # 3️⃣ Crear orden
+        # 3️ Crear orden
         order_data = {
             "user_id": user_id,
             "products": cart["products"],
@@ -44,7 +44,7 @@ class CheckoutService:
 
         self.order_repository.save_order(order_data)
 
-        # 4️⃣ Vaciar carrito
+        # 4️ Vaciar carrito
         self.cart_repository.clear_cart(user_id)
 
         print("\nCompra realizada con éxito.")
